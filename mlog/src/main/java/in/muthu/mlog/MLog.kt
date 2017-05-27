@@ -20,12 +20,21 @@ class MLog {
          * Maximum Tag length for a log
          */
         private val MAX_TAG_LENGTH = 23
-        var context: Context? = null
-        var isLogEnable: Boolean? = false
-        var isFileLogEnable: Boolean? = false
-//        var mFolderName: String? = "MLog"
 
-//        fun getAppContext():Context = context
+        private var context: Context? = null
+        private var isLogEnable: Boolean? = false
+        private var isFileLogEnable: Boolean? = false
+        //        var mFolderName: String? = "MLog"
+
+        public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false) {
+            this.context = context
+            this.isLogEnable = isLogEnable
+            this.isFileLogEnable = isFileLogEnable
+        }
+
+        public fun setFileLoggable(isFileLogEnable: Boolean?): Unit {
+            this.isFileLogEnable
+        }
 
         /**
          *

@@ -11,8 +11,6 @@ class MApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        MLog.isLogEnable = true
-        MLog.context = this
-        MLog.isFileLogEnable = true
+        MLog.init(this, true, true)
     }
 }
