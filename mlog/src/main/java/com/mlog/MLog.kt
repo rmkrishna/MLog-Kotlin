@@ -10,7 +10,12 @@ import android.util.Log
 class MLog {
 
     companion object {
+
         private val MAX_LOG_LENGTH = 4000
+
+        /**
+         * Maximum Tag length for a log
+         */
         private val MAX_TAG_LENGTH = 23
         //        var mContext: Context? = null
         var isLogEnable: Boolean? = false;
@@ -19,55 +24,58 @@ class MLog {
 
         fun isLoggable() = isLogEnable
 
-        public fun d(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        /**
+         *
+         */
+        public fun d(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.DEBUG, tag, message, throwable)
         }
 
-        public fun d(message: String?, throwable: Throwable? = null): Unit {
+        public fun d(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.DEBUG, null, message, throwable)
         }
 
-        public fun v(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        public fun v(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.VERBOSE, tag, message, throwable)
         }
 
-        public fun v(message: String?, throwable: Throwable? = null): Unit {
+        public fun v(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.VERBOSE, null, message, throwable)
         }
 
-        public fun i(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        public fun i(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.INFO, tag, message, throwable)
         }
 
-        public fun i(message: String?, throwable: Throwable? = null): Unit {
+        public fun i(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.INFO, null, message, throwable)
         }
 
-        public fun w(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        public fun w(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.WARN, tag, message, throwable)
         }
 
-        public fun w(message: String?, throwable: Throwable? = null): Unit {
+        public fun w(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.WARN, null, message, throwable)
         }
 
-        public fun e(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        public fun e(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.ERROR, tag, message, throwable)
         }
 
-        public fun e(message: String?, throwable: Throwable? = null): Unit {
+        public fun e(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.ERROR, null, message, throwable)
         }
 
-        public fun a(tag: String?, message: String?, throwable: Throwable? = null): Unit {
+        public fun a(tag: String?, message: String, throwable: Throwable? = null): Unit {
             loggable(Log.ASSERT, tag, message, throwable)
         }
 
-        public fun a(message: String?, throwable: Throwable? = null): Unit {
+        public fun a(message: String, throwable: Throwable? = null): Unit {
             loggable(Log.ASSERT, null, message, throwable)
         }
 
-        private fun loggable(priority: Int, tagValue: String?, messageValue: String?, throwable: Throwable? = null): Unit {
+        private fun loggable(priority: Int, tagValue: String?, messageValue: String, throwable: Throwable? = null): Unit {
             if (isLoggable() == false) {
                 return
             }
