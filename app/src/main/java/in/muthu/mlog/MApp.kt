@@ -1,5 +1,6 @@
-package com.mlog
+package `in`.muthu.mlog
 
+import `in`.muthu.mlog.MLog
 import android.app.Application
 
 /**
@@ -11,5 +12,7 @@ class MApp : Application() {
         super.onCreate()
 
         MLog.isLogEnable = true
+        MLog.context = this
+        MLog.isFileLogEnable = true
     }
 }

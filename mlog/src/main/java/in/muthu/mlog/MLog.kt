@@ -1,6 +1,9 @@
-package com.mlog
+package `in`.muthu.mlog
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.support.v4.app.ActivityCompat
 import android.util.Log
 
 
@@ -17,12 +20,12 @@ class MLog {
          * Maximum Tag length for a log
          */
         private val MAX_TAG_LENGTH = 23
-        //        var mContext: Context? = null
-        var isLogEnable: Boolean? = false;
-//        var mFileLogEnable: Boolean? = false;
+        var context: Context? = null
+        var isLogEnable: Boolean? = false
+        var isFileLogEnable: Boolean? = false
 //        var mFolderName: String? = "MLog"
 
-        fun isLoggable() = isLogEnable
+//        fun getAppContext():Context = context
 
         /**
          *
@@ -76,7 +79,7 @@ class MLog {
         }
 
         private fun loggable(priority: Int, tagValue: String?, messageValue: String, throwable: Throwable? = null): Unit {
-            if (isLoggable() == false) {
+            if (isLogEnable == false) {
                 return
             }
 
@@ -120,6 +123,19 @@ class MLog {
                 Log.WARN -> if (throwable == null) Log.w(tag, message) else Log.w(tag, message, throwable)
                 Log.ASSERT -> if (throwable == null) Log.wtf(tag, message) else Log.wtf(tag, message, throwable)
             }
+
+            if (isFileLogEnable == false || context == null) {
+                return
+            }
+
+            context?.let {
+                if (ActivityCompat.checkSelfPermission(it, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return
+                }
+            }
+
+            // Write in file here
         }
 
         private fun formatTag(tag: String) = if (tag.length > MAX_TAG_LENGTH) tag.substring(0, MAX_TAG_LENGTH) else tag
