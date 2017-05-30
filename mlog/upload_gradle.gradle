@@ -20,15 +20,15 @@ apply plugin: "com.jfrog.bintray"
 def siteUrl = 'https://github.com/rmkrishna/MLog'
 def gitUrl = 'https://github.com/rmkrishna/MLog.git'
 
-group = "in.rmkrishna.mlog"
-version = '0.0.1'
+group = "in.rmkrishna"
+version = '0.0.2'
 
 install {
     repositories.mavenInstaller {
         pom.project {
             packaging 'aar'
 
-            name 'MLog'
+            name 'mLog'
             description 'Logging library for Android using Kotlin'
 
             url siteUrl
@@ -62,18 +62,18 @@ task sourcesJar(type: Jar) {
     classifier = 'sources'
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    classpath += configurations.compile
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
 artifacts {
-    archives javadocJar
+//    archives javadocJar
     archives sourcesJar
 }
 
@@ -90,7 +90,7 @@ if (project.rootProject.file("local.properties").exists()) {
 
         pkg {
             repo = "rmkrishna"
-            name = "MLog"
+            name = "mLog"
             websiteUrl = siteUrl
             vcsUrl = gitUrl
             licenses = ["Apache-2.0"]
