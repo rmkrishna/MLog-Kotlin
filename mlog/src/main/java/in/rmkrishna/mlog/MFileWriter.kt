@@ -18,10 +18,11 @@ class MFileWriter {
     private var customLogFile: BufferedWriter? = null
     private var mFormatter: SimpleDateFormat? = null
 
-    fun open(): Unit {
-        if (isLoggable() == false) {
+    internal fun open(): Unit {
+        if (!isLoggable()) {
             return
         }
+
         mFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
 
         // generate the full path of file
@@ -57,25 +58,29 @@ class MFileWriter {
         logToFile("INIT", sb.toString())
     }
 
-    fun logToFile(tag: String, msg: String, th: Throwable? = null): Unit {
+    internal fun logToFile(tag: String, msg: String, th: Throwable? = null): Unit {
         if (customLogFile == null) {
             return
         }
+
         if (Util.doesSdcardHasEnufSpace(msg.toByteArray().size.toDouble())) {
             val logMsg = getFormattedMessage(tag, msg, th)
 
             if (customLogFile != null) {
-
                 val sb = StringBuilder(1024)
 
-                val d = mFormatter!!.format(Date(System.currentTimeMillis()))
+                mFormatter?.let {
+                    val d = it.format(Date(System.currentTimeMillis()))
 
-                sb.append(d).append(" ")
+                    sb.append(d).append(" ")
+                }
                 sb.append(logMsg)
 
-                customLogFile!!.write(sb.toString())
+                customLogFile?.let {
+                    it.write(sb.toString())
 
-                customLogFile!!.flush()
+                    it.flush()
+                }
             }
         }
     }
@@ -102,8 +107,7 @@ class MFileWriter {
      * *
      * @return Formatted string.
      */
-    private fun getFormattedMessage(tag: String, msg: String?,
-                                    th: Throwable?): String {
+    private fun getFormattedMessage(tag: String, msg: String?, th: Throwable?): String {
         var msg = msg
 
         if (msg == null) {

@@ -1,14 +1,11 @@
 package `in`.rmkrishna.mlog
 
-import `in`.rmkrishna.mlog.MLog
 import android.content.pm.PackageManager
 import android.os.Environment
 import java.text.SimpleDateFormat
 import java.util.*
 import java.io.File
 import android.os.StatFs
-
-
 
 
 /**
@@ -18,7 +15,7 @@ class Util {
 
     companion object {
 
-        fun generateLogFilePath(): String {
+        internal fun generateLogFilePath(): String {
 
             val timestamp = System.currentTimeMillis()
 
@@ -41,7 +38,7 @@ class Util {
             return fileName
         }
 
-        fun getLoggingFolderOfThisApp(): String {
+        internal fun getLoggingFolderOfThisApp(): String {
 
             val rootPath = Environment.getExternalStorageDirectory().getPath() + File.separator + MLog.folderName
 
@@ -62,7 +59,7 @@ class Util {
          * *
          * @return
          */
-        fun convertTime(time: Long): String {
+        internal fun convertTime(time: Long): String {
             val date = Date(time)
 
             val format = SimpleDateFormat("yyyy MM dd HH:mm:ss", Locale.US)
@@ -75,7 +72,7 @@ class Util {
 
          * @return
          */
-        fun getAppVersionName(): String? {
+        internal fun getAppVersionName(): String? {
             val context = MLog.context
 
             var versionName: String? = null
@@ -94,7 +91,7 @@ class Util {
 
          * @return
          */
-        fun getAppVersionCode(): Int {
+        internal fun getAppVersionCode(): Int {
             val context = MLog.context
 
             var info = context!!.getPackageManager().getPackageInfo(context!!.packageName, PackageManager.GET_SIGNATURES)
@@ -114,7 +111,7 @@ class Util {
          * *
          * @return
          */
-        public fun doesSdcardHasEnufSpace(requiredSize: Double): Boolean {
+        internal fun doesSdcardHasEnufSpace(requiredSize: Double): Boolean {
             var spaceAvailable = false
             val path = Environment.getExternalStorageDirectory() ?: return false
 
@@ -137,7 +134,7 @@ class Util {
             return spaceAvailable
         }
 
-        public fun isSdCardPresent(): Boolean {
+        internal fun isSdCardPresent(): Boolean {
             var result = false
             val state = Environment.getExternalStorageState()
 

@@ -21,10 +21,10 @@ class MLog {
          */
         private val MAX_TAG_LENGTH = 23
 
-        public var context: Context? = null
+        internal var context: Context? = null
         private var isLogEnable: Boolean? = false
         private var isFileLogEnable: Boolean? = false
-        public var folderName: String? = "MLog"
+        internal var folderName: String? = "MLog"
 
         public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false, folder: String? = null) {
             Companion.context = context

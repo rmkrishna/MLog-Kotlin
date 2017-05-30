@@ -9,15 +9,15 @@ import android.os.Process
 /**
  * Created by muthukrishnan on 27/05/17.
  */
-public object MFileLog {
+internal object MFileLog {
 
     private val LOG = 150
 
     private var fileWriter: MFileWriter? = null
 
-    var handler: Handler? = null;
+    private var handler: Handler? = null;
 
-    public fun init() {
+    internal fun init() {
 
         fileWriter = MFileWriter()
         fileWriter?.open()
@@ -38,9 +38,9 @@ public object MFileLog {
         }
     }
 
-    public fun log(tag: String, msg: String, th: Throwable?) {
+    internal fun log(tag: String, msg: String, th: Throwable?) {
         handler?.sendMessage(Message.obtain(handler, LOG, Item(tag, msg, th)))
     }
 
-    class Item constructor(var tag: String, var msg: String, var th: Throwable?)
+    internal class Item constructor(var tag: String, var msg: String, var th: Throwable?)
 }
