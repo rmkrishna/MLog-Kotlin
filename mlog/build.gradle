@@ -53,3 +53,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
+apply from: 'upload_gradle.gradle'
