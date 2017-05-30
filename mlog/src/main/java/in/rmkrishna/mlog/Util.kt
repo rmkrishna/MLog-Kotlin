@@ -27,13 +27,13 @@ import android.os.StatFs
 /**
  * Created by muthukrishnan on 30/05/17.
  */
-class Util {
+
+
+internal class Util {
 
     companion object {
 
         internal fun generateLogFilePath(): String {
-
-            val timestamp = System.currentTimeMillis()
 
             val folderName = getLoggingFolderOfThisApp()
 
@@ -41,11 +41,13 @@ class Util {
 
             // create the folder
             if (!f.isDirectory) {
-                val ret = f.mkdirs()
-                if (ret != true) {
+
+                if (!f.mkdirs()) {
                     return "" // return empty string if fail.
                 }
             }
+
+            val timestamp = System.currentTimeMillis()
 
             // file name
             val sdf = SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US)
@@ -56,12 +58,12 @@ class Util {
 
         internal fun getLoggingFolderOfThisApp(): String {
 
-            val rootPath = Environment.getExternalStorageDirectory().getPath() + File.separator + MLog.folderName
-
-            val sb = StringBuilder(130) // half of the max length of the path
-
-            sb.append(rootPath)
-            sb.append(File.separator)
+            val sb = StringBuilder(130).apply {
+                append(Environment.getExternalStorageDirectory().getPath())
+                append(File.separator)
+                append(MLog.folderName)
+                append(File.separator)
+            }
 
             return sb.toString()
         }
@@ -91,15 +93,15 @@ class Util {
         internal fun getAppVersionName(): String? {
             val context = MLog.context
 
-            var versionName: String? = null
-            var info = context!!.getPackageManager().getPackageInfo(context!!.packageName, PackageManager.GET_SIGNATURES)
+            context?.let { context ->
+                var info = context.getPackageManager().getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
 
-
-            if (info != null) {
-                versionName = info!!.versionName
+                info?.let { info ->
+                    return info.versionName
+                }
             }
 
-            return versionName
+            return null
         }
 
         /**
@@ -110,15 +112,15 @@ class Util {
         internal fun getAppVersionCode(): Int {
             val context = MLog.context
 
-            var info = context!!.getPackageManager().getPackageInfo(context!!.packageName, PackageManager.GET_SIGNATURES)
+            context?.let { context ->
+                var info = context.getPackageManager().getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
 
-            var versionCode = -1
-
-            if (info != null) {
-                versionCode = info!!.versionCode
+                info?.let { info ->
+                    return info.versionCode
+                }
             }
 
-            return versionCode
+            return -1
         }
 
         /**
@@ -128,37 +130,24 @@ class Util {
          * @return
          */
         internal fun doesSdcardHasEnufSpace(requiredSize: Double): Boolean {
-            var spaceAvailable = false
             val path = Environment.getExternalStorageDirectory() ?: return false
 
             val filePath = path.path ?: return false
 
-            var stat: StatFs? = null
+            var stat: StatFs? = StatFs(filePath)
 
-            try {
-                stat = StatFs(filePath)
-            } catch (exception: IllegalArgumentException) {
-                return false
+            stat?.let {
+                val availSize = it.availableBlocks.toDouble() * it.blockSize.toDouble()
+
+                if (requiredSize < availSize) {
+                    return true
+                }
             }
 
-            val availSize = stat.availableBlocks.toDouble() * stat.blockSize.toDouble()
-
-            if (requiredSize < availSize) {
-                spaceAvailable = true
-            }
-
-            return spaceAvailable
+            return false
         }
 
-        internal fun isSdCardPresent(): Boolean {
-            var result = false
-            val state = Environment.getExternalStorageState()
-
-            if (Environment.MEDIA_MOUNTED == state) {
-                result = true
-            }
-
-            return result
-        }
+        internal fun isSdCardPresent() = (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState())
     }
 }
+

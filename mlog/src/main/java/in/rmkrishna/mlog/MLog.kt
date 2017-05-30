@@ -192,6 +192,7 @@ class MLog {
 
                 do {
                     val end: Int = Math.min(newline, i + MAX_LOG_LENGTH)
+
                     val part: String = messageValue.substring(i, end)
 
                     loggable(priority, tagValue, part, throwable)

@@ -41,13 +41,6 @@ class MFileWriter {
 
         mFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
 
-        // generate the full path of file
-        var ts = System.currentTimeMillis()
-
-        if (ts <= 0) {
-            ts = System.currentTimeMillis()
-        }
-
         val fileName = Util.generateLogFilePath()
 
         if (TextUtils.isEmpty(fileName)) {
@@ -62,14 +55,18 @@ class MFileWriter {
 
         customLogFile = BufferedWriter(FileWriter(f, true))
 
-        val sb = StringBuilder(400)
-        sb.append("-------------------------\n")
-        sb.append("Logging started Time : ").append(Util.convertTime(ts)).append("\n")
-        sb.append("Process ID : ").append(android.os.Process.myPid()).append("\n")
-        sb.append("Version code : ").append(Util.getAppVersionCode()).append("\n")
-        sb.append("Version name : ").append(Util.getAppVersionName()).append("\n")
-        sb.append("SDK Version : ").append(BuildConfig.VERSION_NAME).append("\n")
-        sb.append("\n")
+        val sb = StringBuilder(400).apply {
+            append("-------------------------\n")
+            append("Logging started Time : ")
+            append(Util.convertTime(System.currentTimeMillis()))
+            append("\n")
+            append("Process ID : ").append(android.os.Process.myPid()).append("\n")
+            append("Version code : ").append(Util.getAppVersionCode()).append("\n")
+            append("Version name : ").append(Util.getAppVersionName()).append("\n")
+            append("SDK Version : ").append(BuildConfig.VERSION_NAME).append("\n")
+            append("\n")
+        }
+
 
         logToFile("INIT", sb.toString())
     }
