@@ -1,5 +1,20 @@
 # MLog
-Simple Logging for Android in Kotlin
+Simple Logging library for Android in Kotlin, It will help you to print the logs in Console and File in SDCard.it will 
+
+ [ ![Download](https://api.bintray.com/packages/rmkrishna/rmkrishna/mLog/images/download.svg) ](https://bintray.com/rmkrishna/rmkrishna/mLog/_latestVersion)
+
+## Usage
+### Dependency
+```groovy
+compile 'in.rmkrishna:mlog:0.0.2'
+```
+
+### Initialization
+
+```Kotlin
+MLog.init(this, true, true)
+```
+
 
                                  Apache License
                            Version 2.0, January 2004
