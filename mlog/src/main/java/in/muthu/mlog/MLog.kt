@@ -21,18 +21,28 @@ class MLog {
          */
         private val MAX_TAG_LENGTH = 23
 
-        private var context: Context? = null
+        public var context: Context? = null
         private var isLogEnable: Boolean? = false
         private var isFileLogEnable: Boolean? = false
-        //        var mFolderName: String? = "MLog"
+        public var folderName: String? = "MLog"
 
-        public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false) {
+        public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false, folder: String? = null) {
             this.context = context
             this.isLogEnable = isLogEnable
+
+            if (isFileLogEnable == true) {
+                MFileLog.init()
+            }
+
             this.isFileLogEnable = isFileLogEnable
+            this.folderName = folder
         }
 
+//        public fun getAppContext() = context
+
         public fun setFileLoggable(isFileLogEnable: Boolean?): Unit {
+            MFileLog.init()
+
             this.isFileLogEnable
         }
 
@@ -140,11 +150,15 @@ class MLog {
             context?.let {
                 if (ActivityCompat.checkSelfPermission(it, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
+
                     return
                 }
             }
 
             // Write in file here
+            if (isFileLogEnable == true) {
+                MFileLog.log(tag, message, throwable)
+            }
         }
 
         private fun formatTag(tag: String) = if (tag.length > MAX_TAG_LENGTH) tag.substring(0, MAX_TAG_LENGTH) else tag
