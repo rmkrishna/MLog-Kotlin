@@ -1,6 +1,6 @@
 package `in`.muthu.mlog
 
-import `in`.muthu.mlog.MLog
+import `in`.rmkrishna.mlog.MLog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.mlog.R

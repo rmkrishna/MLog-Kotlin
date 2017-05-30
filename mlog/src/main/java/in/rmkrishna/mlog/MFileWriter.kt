@@ -1,5 +1,6 @@
-package `in`.muthu.mlog
+package `in`.rmkrishna.mlog
 
+import `in`.muthu.mlog.BuildConfig
 import android.text.TextUtils
 import android.util.Log
 import java.io.BufferedWriter

@@ -1,6 +1,6 @@
 package `in`.muthu.mlog
 
-import `in`.muthu.mlog.MLog
+import `in`.rmkrishna.mlog.MLog
 import android.app.Application
 
 /**

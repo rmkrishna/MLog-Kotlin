@@ -1,9 +1,9 @@
-package `in`.muthu.mlog
+package `in`.rmkrishna.mlog
 
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
-import android.util.Log
+import android.os.Process
 
 
 /**
@@ -22,7 +22,7 @@ public object MFileLog {
         fileWriter = MFileWriter()
         fileWriter?.open()
 
-        val handlerThread = HandlerThread("MyHandlerThread")
+        val handlerThread = HandlerThread("MyHandlerThread", Process.THREAD_PRIORITY_BACKGROUND)
         handlerThread.start()
 
         handler = object : Handler(handlerThread.looper) {

@@ -1,13 +1,10 @@
-package `in`.muthu.mlog
+package `in`.rmkrishna.mlog
 
+import `in`.rmkrishna.mlog.MLog
 import android.content.pm.PackageManager
-import android.R.attr.versionCode
-import android.content.pm.PackageInfo
 import android.os.Environment
 import java.text.SimpleDateFormat
 import java.util.*
-import java.io.File.separator
-import android.os.Environment.getExternalStorageDirectory
 import java.io.File
 import android.os.StatFs
 

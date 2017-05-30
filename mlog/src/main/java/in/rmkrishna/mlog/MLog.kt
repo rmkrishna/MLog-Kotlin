@@ -1,4 +1,4 @@
-package `in`.muthu.mlog
+package `in`.rmkrishna.mlog
 
 import android.Manifest
 import android.content.Context
@@ -27,23 +27,21 @@ class MLog {
         public var folderName: String? = "MLog"
 
         public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false, folder: String? = null) {
-            this.context = context
-            this.isLogEnable = isLogEnable
+            Companion.context = context
+            Companion.isLogEnable = isLogEnable
 
             if (isFileLogEnable == true) {
                 MFileLog.init()
             }
 
-            this.isFileLogEnable = isFileLogEnable
-            this.folderName = folder
+            Companion.isFileLogEnable = isFileLogEnable
+            folderName = folder
         }
-
-//        public fun getAppContext() = context
 
         public fun setFileLoggable(isFileLogEnable: Boolean?): Unit {
             MFileLog.init()
 
-            this.isFileLogEnable
+            Companion.isFileLogEnable
         }
 
         /**
@@ -115,7 +113,7 @@ class MLog {
                     var className = stackTrace[minSize + 1].className;
                     var methodName = stackTrace[minSize + 1].methodName;
 
-                    className = className?.substring(className?.lastIndexOf('.') + 1) + "." + methodName
+                    className = className?.substring(className?.lastIndexOf('.') + 1) + "" + methodName
 
                     tag = className;
                 }
