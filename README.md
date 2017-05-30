@@ -1,5 +1,5 @@
 # MLog
-Simple Logging library for Android in Kotlin, It will help you to print the logs in Console and File in SDCard.it will 
+Simple Logging library for Android in Kotlin, It will help you to print the logs in Console and also it will store the logs in File in the mobile sdcard.
 
  [ ![Download](https://api.bintray.com/packages/rmkrishna/rmkrishna/mLog/images/download.svg) ](https://bintray.com/rmkrishna/rmkrishna/mLog/_latestVersion)
 
