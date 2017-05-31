@@ -1,5 +1,5 @@
 # MLog
-Simple Logging library for Android in Kotlin, It will help you to print the logs in Console and also it will store the logs in File in the mobile sdcard.
+Simple Logging library for Android in Kotlin, It will help you to print the logs in Console and also it will store the logs in File in your mobile storage.
 
  [ ![Download](https://api.bintray.com/packages/rmkrishna/rmkrishna/mLog/images/download.svg) ](https://bintray.com/rmkrishna/rmkrishna/mLog/_latestVersion)
 
@@ -13,6 +13,30 @@ compile 'in.rmkrishna:mlog:0.0.2'
 
 ```Kotlin
 MLog.init(this, true, true)
+```
+### How to use
+
+```Kotlin
+        // If tag is not provided, we will generate Tag based on your Activity and method name
+        MLog.d("Calculate") // log a String without tag, 
+        
+        MLog.d(TAG, "onCreate") // log a String with tag
+
+        var jsonObject: JSONObject = JSONObject().apply {
+            put("name", "Muthukrishnan Rajendran")
+            put("device", "Android")
+        }
+
+        MLog.d(jsonObject) // To log a Json object
+
+        var jsonArray: JSONArray = JSONArray().apply {
+            put("Message 1")
+            put("Message 2")
+            put("Message 3")
+            put("Message 4")
+            put("Message 5")
+        }
+        MLog.d(jsonArray) // To log a Json array
 ```
 
 ## License
