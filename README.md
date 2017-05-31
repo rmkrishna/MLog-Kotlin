@@ -6,7 +6,7 @@ Simple Logging library for Android in Kotlin, It will help you to print the logs
 ## Usage
 ### Dependency
 ```groovy
-compile 'in.rmkrishna:mlog:0.0.2'
+compile 'in.rmkrishna:mlog:0.0.3'
 ```
 
 ### Initialization
