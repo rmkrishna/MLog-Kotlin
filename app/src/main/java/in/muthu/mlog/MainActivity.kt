@@ -20,6 +20,8 @@ import `in`.rmkrishna.mlog.MLog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.mlog.R
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,5 +37,21 @@ class MainActivity : AppCompatActivity() {
 
         MLog.d("onCreate")
         MLog.d(TAG, "onCreate")
+
+        var jsonObject: JSONObject = JSONObject().apply {
+            put("name", "Muthukrishnan Rajendran")
+            put("device", "Device")
+        }
+
+        MLog.d(jsonObject)
+
+        var jsonArray: JSONArray = JSONArray().apply {
+            put("Message 1")
+            put("Message 2")
+            put("Message 3")
+            put("Message 4")
+            put("Message 5")
+        }
+        MLog.d(jsonArray)
     }
 }

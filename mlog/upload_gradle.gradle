@@ -21,7 +21,7 @@ def siteUrl = 'https://github.com/rmkrishna/MLog'
 def gitUrl = 'https://github.com/rmkrishna/MLog.git'
 
 group = "in.rmkrishna"
-version = '0.0.2'
+version = '0.0.3'
 
 install {
     repositories.mavenInstaller {

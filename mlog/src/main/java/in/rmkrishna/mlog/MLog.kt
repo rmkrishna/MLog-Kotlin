@@ -21,6 +21,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.util.Log
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 /**
@@ -31,6 +33,7 @@ class MLog {
     companion object {
 
         private val MAX_LOG_LENGTH = 4000
+        private val JSON_INDENT = 4
 
         /**
          * Maximum Tag length for a log
@@ -60,65 +63,83 @@ class MLog {
             Companion.isFileLogEnable
         }
 
-        /**
-         *
-         */
-        public fun d(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun d(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.DEBUG, tag, message, throwable)
         }
 
-        public fun d(message: String, throwable: Throwable? = null): Unit {
+        public fun d(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.DEBUG, null, message, throwable)
         }
 
-        public fun v(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun v(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.VERBOSE, tag, message, throwable)
         }
 
-        public fun v(message: String, throwable: Throwable? = null): Unit {
+        public fun v(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.VERBOSE, null, message, throwable)
         }
 
-        public fun i(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun i(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.INFO, tag, message, throwable)
         }
 
-        public fun i(message: String, throwable: Throwable? = null): Unit {
+        public fun i(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.INFO, null, message, throwable)
         }
 
-        public fun w(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun w(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.WARN, tag, message, throwable)
         }
 
-        public fun w(message: String, throwable: Throwable? = null): Unit {
+        public fun w(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.WARN, null, message, throwable)
         }
 
-        public fun e(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun e(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.ERROR, tag, message, throwable)
         }
 
-        public fun e(message: String, throwable: Throwable? = null): Unit {
+        public fun e(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.ERROR, null, message, throwable)
         }
 
-        public fun a(tag: String?, message: String, throwable: Throwable? = null): Unit {
+        public fun a(tag: String?, message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.ASSERT, tag, message, throwable)
         }
 
-        public fun a(message: String, throwable: Throwable? = null): Unit {
+        public fun a(message: Any, throwable: Throwable? = null): Unit {
             loggable(Log.ASSERT, null, message, throwable)
         }
 
-        private fun loggable(priority: Int, tagValue: String?, messageValue: String, throwable: Throwable? = null): Unit {
+        private fun getMessage(any: Any): String {
+            any?.let {
+                when (any) {
+                    is String -> {
+                        return any
+                    }
+                    is JSONObject -> {
+                        var jsonObj = any
+
+                        return jsonObj.toString(JSON_INDENT)
+                    }
+                    is JSONArray -> {
+                        var jsonArray = any
+
+                        return jsonArray.toString(JSON_INDENT)
+                    }
+                    else -> {
+                        return any.toString()
+                    }
+                }
+            }
+        }
+
+        private fun loggable(priority: Int, tagValue: String?, any: Any, throwable: Throwable? = null): Unit {
             if (isLogEnable == false) {
                 return
             }
 
             var tag: String? = tagValue;
-
-            var message: String? = messageValue
 
             if (tag == null) {
                 val stackTrace = Throwable().stackTrace
@@ -129,11 +150,13 @@ class MLog {
                     var className = stackTrace[minSize + 1].className;
                     var methodName = stackTrace[minSize + 1].methodName;
 
-                    className = className?.substring(className?.lastIndexOf('.') + 1) + "" + methodName
+                    className = className?.substring(className?.lastIndexOf('.') + 1) + "-" + methodName
 
                     tag = className;
                 }
             }
+
+            var message: String? = getMessage(any)
 
             if (message == null || tag == null) {
                 return
@@ -141,11 +164,12 @@ class MLog {
 
             tag = formatTag(tag)
 
+            message?.let {
+                if (it.length > MAX_LOG_LENGTH) {
+                    logAsChunk(priority, tag, it, throwable)
 
-            if (message.length > MAX_LOG_LENGTH) {
-                logAsChunk(priority, tag, message, throwable)
-
-                return
+                    return
+                }
             }
 
             when (priority) {
@@ -171,6 +195,7 @@ class MLog {
 
             // Write in file here
             if (isFileLogEnable == true) {
+
                 MFileLog.log(tag, message, throwable)
             }
         }

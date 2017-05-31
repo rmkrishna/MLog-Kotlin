@@ -71,28 +71,30 @@ class MFileWriter {
         logToFile("INIT", sb.toString())
     }
 
-    internal fun logToFile(tag: String, msg: String, th: Throwable? = null): Unit {
+    internal fun logToFile(tag: String, msg: String?, th: Throwable? = null): Unit {
         if (customLogFile == null) {
             return
         }
 
-        if (Util.doesSdcardHasEnufSpace(msg.toByteArray().size.toDouble())) {
-            val logMsg = getFormattedMessage(tag, msg, th)
+        msg?.let { msg ->
+            if (Util.doesSdcardHasEnufSpace(msg.toByteArray().size.toDouble())) {
+                val logMsg = getFormattedMessage(tag, msg, th)
 
-            if (customLogFile != null) {
-                val sb = StringBuilder(1024)
+                if (customLogFile != null) {
+                    val sb = StringBuilder(1024)
 
-                mFormatter?.let {
-                    val d = it.format(Date(System.currentTimeMillis()))
+                    mFormatter?.let { mFormatter ->
+                        val d = mFormatter.format(Date(System.currentTimeMillis()))
 
-                    sb.append(d).append(" ")
-                }
-                sb.append(logMsg)
+                        sb.append(d).append(" ")
+                    }
+                    sb.append(logMsg)
 
-                customLogFile?.let {
-                    it.write(sb.toString())
+                    customLogFile?.let { customLogFile ->
+                        customLogFile.write(sb.toString())
 
-                    it.flush()
+                        customLogFile.flush()
+                    }
                 }
             }
         }

@@ -54,9 +54,13 @@ internal object MFileLog {
         }
     }
 
-    internal fun log(tag: String, msg: String, th: Throwable?) {
+    internal fun log(tag: String, msg: String?, th: Throwable?) {
+        if (msg == null && th == null) {
+            return
+        }
+
         handler?.sendMessage(Message.obtain(handler, LOG, Item(tag, msg, th)))
     }
 
-    internal class Item constructor(var tag: String, var msg: String, var th: Throwable?)
+    internal class Item constructor(var tag: String, var msg: String?, var th: Throwable?)
 }
