@@ -41,15 +41,15 @@ class MLog {
         private val MAX_TAG_LENGTH = 23
 
         internal var context: Context? = null
-        private var isLogEnable: Boolean? = false
-        private var isFileLogEnable: Boolean? = false
+        private var isLogEnable: Boolean = false
+        private var isFileLogEnable: Boolean = false
         internal var folderName: String? = "MLog"
 
-        public fun init(context: Context, isLogEnable: Boolean?, isFileLogEnable: Boolean? = false, folder: String? = null) {
+        public fun init(context: Context, isLogEnable: Boolean, isFileLogEnable: Boolean = false, folder: String? = "MLog") {
             Companion.context = context
             Companion.isLogEnable = isLogEnable
 
-            if (isFileLogEnable == true) {
+            if (isFileLogEnable) {
                 MFileLog.init()
             }
 
@@ -57,10 +57,12 @@ class MLog {
             folderName = folder
         }
 
-        public fun setFileLoggable(isFileLogEnable: Boolean?): Unit {
-            MFileLog.init()
+        public fun setFileLoggable(isFileLogEnable: Boolean): Unit {
+            if (isFileLogEnable) {
+                MFileLog.init()
+            }
 
-            Companion.isFileLogEnable
+            Companion.isFileLogEnable = isFileLogEnable
         }
 
         public fun d(tag: String?, message: Any, throwable: Throwable? = null): Unit {
@@ -135,9 +137,6 @@ class MLog {
         }
 
         private fun loggable(priority: Int, tagValue: String?, any: Any, throwable: Throwable? = null): Unit {
-            if (isLogEnable == false) {
-                return
-            }
 
             var tag: String? = tagValue;
 
@@ -172,16 +171,18 @@ class MLog {
                 }
             }
 
-            when (priority) {
-                Log.VERBOSE -> if (throwable == null) Log.v(tag, message) else Log.v(tag, message, throwable)
-                Log.DEBUG -> if (throwable == null) Log.d(tag, message) else Log.d(tag, message, throwable)
-                Log.ERROR -> if (throwable == null) Log.e(tag, message) else Log.e(tag, message, throwable)
-                Log.INFO -> if (throwable == null) Log.i(tag, message) else Log.i(tag, message, throwable)
-                Log.WARN -> if (throwable == null) Log.w(tag, message) else Log.w(tag, message, throwable)
-                Log.ASSERT -> if (throwable == null) Log.wtf(tag, message) else Log.wtf(tag, message, throwable)
+            if (isLogEnable) {
+                when (priority) {
+                    Log.VERBOSE -> if (throwable == null) Log.v(tag, message) else Log.v(tag, message, throwable)
+                    Log.DEBUG -> if (throwable == null) Log.d(tag, message) else Log.d(tag, message, throwable)
+                    Log.ERROR -> if (throwable == null) Log.e(tag, message) else Log.e(tag, message, throwable)
+                    Log.INFO -> if (throwable == null) Log.i(tag, message) else Log.i(tag, message, throwable)
+                    Log.WARN -> if (throwable == null) Log.w(tag, message) else Log.w(tag, message, throwable)
+                    Log.ASSERT -> if (throwable == null) Log.wtf(tag, message) else Log.wtf(tag, message, throwable)
+                }
             }
 
-            if (isFileLogEnable == false || context == null) {
+            if (!isFileLogEnable || context == null) {
                 return
             }
 
@@ -194,7 +195,7 @@ class MLog {
             }
 
             // Write in file here
-            if (isFileLogEnable == true) {
+            if (isFileLogEnable) {
 
                 MFileLog.log(tag, message, throwable)
             }
