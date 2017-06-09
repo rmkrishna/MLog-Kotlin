@@ -23,12 +23,15 @@ import android.support.v4.app.ActivityCompat
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.reflect.KProperty
 
 
 /**
  * Created by muthukrishnan on 26/05/17.
  */
 class MLog {
+
+
 
     companion object {
 
@@ -42,26 +45,35 @@ class MLog {
 
         internal var context: Context? = null
         private var isLogEnable: Boolean = false
-        private var isFileLogEnable: Boolean = false
+        internal var isFileLogEnable: Boolean by Delegate()
         internal var folderName: String? = "MLog"
+
+        class Delegate() {
+            var fileLoggable: Boolean = false
+
+            operator fun getValue(thisRef: Any?, prop: KProperty<*>): Boolean {
+                return fileLoggable
+            }
+
+            operator fun setValue(thisRef: Any?, prop: KProperty<*>, value: Boolean) {
+                fileLoggable = value
+
+                if (fileLoggable) {
+                    MFileLog.init()
+                }
+            }
+        }
 
         public fun init(context: Context, isLogEnable: Boolean, isFileLogEnable: Boolean = false, folder: String? = "MLog") {
             Companion.context = context
             Companion.isLogEnable = isLogEnable
 
-            if (isFileLogEnable) {
-                MFileLog.init()
-            }
-
             Companion.isFileLogEnable = isFileLogEnable
+
             folderName = folder
         }
 
         public fun setFileLoggable(isFileLogEnable: Boolean): Unit {
-            if (isFileLogEnable) {
-                MFileLog.init()
-            }
-
             Companion.isFileLogEnable = isFileLogEnable
         }
 
