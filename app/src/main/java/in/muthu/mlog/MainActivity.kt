@@ -25,11 +25,7 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG: String?
-
-    init {
-        TAG = MainActivity::class?.simpleName
-    }
+    val TAG: String? = MainActivity::class.simpleName;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
